@@ -25,7 +25,7 @@ pipeline {
                     script {
                         dir('partner_firstname') {
                             sh "rm -rf ./*"
-                            git(  url: 'git@github.com:Lechiffresene/partner_firstname.git', production: '16.0' ) 
+                            git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', production: '16.0' ) 
                             sh " cp -r ./odoo/addons/*  ../partner_firstname   "
                             sh " ls -lh ../partner_firstname"
                         }
