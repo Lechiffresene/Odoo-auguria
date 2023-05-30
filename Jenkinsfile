@@ -25,6 +25,7 @@ pipeline {
                     script {
                         dir('partner_firstname') {
                             sh "rm -rf ./*"
+                            git(  url: 'git@github.com:Lechiffresene/odoo-module.git', branch: '16.0' )
                             sh " cp -r ./odoo/addons/*  ../partner_firstname   "
                             sh " ls -lh ../partner_firstname"
                         }
