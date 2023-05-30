@@ -14,18 +14,18 @@ pipeline {
             stage('Create  addons directories ') {
  
             steps {
-                sh "mkdir -p partner_firstname "
+                sh "mkdir -p partner_firstname  "
             }
  
             }
 
-            stage('Add module addons') {
+            stage('Add modules addons') {
 
                 steps {
                     script {
                         dir('partner_firstname') {
                             sh "rm -rf ./*"
-                            git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', production: '16.0' ) 
+                            git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', branch: '16.0' ) 
                             sh " cp -r ./odoo/addons/*  ../partner_firstname   "
                             sh " ls -lh ../partner_firstname"
                         }
@@ -37,7 +37,7 @@ pipeline {
             stage('Build image') {
 
                 steps {
-                        sh "docker build -t auguria/erp:${shortCommit}  ."
+                        sh "docker build -t Odoo-auguria/odoo:${shortCommit}  ."
 
 
                 }
@@ -47,7 +47,7 @@ pipeline {
             stage('Push image') {
                 
                 steps {
-                        sh "docker push auguria/erpi:${shortCommit} "
+                        sh "docker push Odoo-auguria/odoo:${shortCommit} "
 
 
                 }
@@ -56,7 +56,7 @@ pipeline {
             stage('Clean image') {
                 
                 steps {
-                        sh "docker rmi auguria/erp:${shortCommit} "
+                        sh "docker rmi Odoo-auguria/odoo:${shortCommit} "
 
                 }
             }
