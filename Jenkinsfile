@@ -9,12 +9,27 @@ pipeline {
             }
 
 
-        stage('Install Dependencies') {
+    stages {
+
+            stage('Checkout ') {
+ 
             steps {
-               
-                sh 'pip install -r requirements.txt'
+                 git branch: 'production', url: 'https://github.com/Lechiffresene/Odoo-auguria.git'
             }
-        }
+ 
+            }
+
+            stage('Install Dependencies') {
+
+                steps {
+                    script {
+                        
+                            sh "pip install -r requirements.txt"
+                        
+                    }
+                }
+            
+            }
 
             stage('Build image') {
 
@@ -45,3 +60,4 @@ pipeline {
            
     }
 
+}
