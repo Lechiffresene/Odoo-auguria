@@ -6,6 +6,7 @@ pipeline {
 
                 def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
                 def author = sh(returnStdout: true, script: "git show -s --pretty=%an").trim()  
+                imageName = "odoo:${shortCommit}"
             }
 
 
@@ -19,25 +20,20 @@ pipeline {
            
             }
 
+    }
 
-
-            stage('Build image') {  
-
-                steps {
-                    script {
-                        sh "docker build -t Lechiffresene/odoo:${shortCommit}  ."
-
-                         
-
-
+            stage('Build Docker Image') {
+            steps {
+                // Build the Docker image with the short commit as the tag
+                script {
+                    docker.build(imageName)
                 }
             }
-
- }
+        }
             stage('Push image') {
                 
                 steps {
-                        sh "docker push Lechiffresene/odoo:${shortCommit} "
+                        sh "docker push (imageName) "
 
 
                 }
@@ -46,13 +42,13 @@ pipeline {
             stage('Clean image') {
                 
                 steps {
-                        sh "docker rmi Lechiffresene/odoo:${shortCommit} "
+                        sh "docker rmi (imageName) "
 
                 }
             }
            
-    }
-
-
 }
+
+
+
 }
