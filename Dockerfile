@@ -1,44 +1,52 @@
-FROM odoo:16
+# Use a base image with Python 3.8 and Odoo 16 dependencies
+FROM python:3.8
 
-USER root
+# Set environment variables
+ENV ODOO_VERSION=16.0 \
+    ODOO_RELEASE=20211006
 
-RUN apt update
-### /install some development  tools 
-RUN apt install -y unoconv vim git
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    zlib1g-dev \
+    libsasl2-dev \
+    libldap2-dev \
+    libpq-dev \
+    wget \
+    curl \
+    git \
+    libjpeg-dev \
+    libldap2-dev \
+    libsasl2-dev \
+    node-less \
+    postgresql-client \
+    libjpeg62-turbo-dev \
+    xfonts-75dpi \
+    xfonts-base \
+    && rm -rf /var/lib/apt/lists/*
 
-### Install some dependencies needed by ijayo modules
-# RUN pip install docxtpl
-# RUN apt -y install libreoffice
-# RUN pip install kafka-python
+# Download and install Odoo
+RUN set -x; \
+    curl -o odoo.deb -SL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
+    && dpkg --force-depends -i odoo.deb \
+    && apt-get install -y -f --no-install-recommends \
+    && rm odoo.deb
 
-### Copy custume modules addons  
+# Set up Odoo configuration file
+COPY odoo.conf /etc/odoo.conf
 
-### Copy entreprise  modules addons   
+# Expose Odoo ports
+EXPOSE 8069 8071
 
-##COPY ./partner_firstname/  /mnt/extra-addons
+# Set the working directory
+WORKDIR /opt/odoo
 
-### Create data folder for persistant volume
-RUN mkdir -p /home/data \
-     && chown -R odoo:odoo /home/data
+# Define the entrypoint command
+ENTRYPOINT ["odoo"]
 
-
-RUN mkdir -p /home/data/scripts \
-    && chown -R odoo:odoo /home/data/scripts
-
-COPY ./script.sh  /home/data/scripts 
-
-### Copy the edited entrypoint 
-COPY ./entrypoint.sh  /
-
-### Copy the edited odoo.conf
-COPY ./config/odoo.conf /etc/odoo/  
-
-### Edit permision on entrypoint.sh
-RUN chown odoo /entrypoint.sh \
-    && chmod 777 /entrypoint.sh
-
-### Edit permision on odoo.conf
-RUN chown odoo /etc/odoo/odoo.conf 
-
-### Change user to odoo 
-USER odoo
+# Set the default command to start Odoo server
+CMD ["--config=/etc/odoo.conf"]
