@@ -24,7 +24,9 @@ pipeline {
             stage('Build image') {  
 
                 steps {
-                        sh "docker build -t Lechiffresene/odoo:${shortCommit}  ."
+                        
+
+                         sh 'python odoo-bin -c odoo.conf -d auguria --addons-path=/mnt/extra-addons'
 
 
                 }
