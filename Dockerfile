@@ -1,9 +1,15 @@
 # Use a base image with Python 3.8 and Odoo 16 dependencies
 FROM python:3.8
 
+
+
 # Set environment variables
 ENV ODOO_VERSION=16.0 \
     ODOO_RELEASE=20211006
+
+
+# Install pip
+RUN python -m ensurepip --upgrade
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
