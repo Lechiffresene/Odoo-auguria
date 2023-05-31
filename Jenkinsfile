@@ -24,6 +24,7 @@ pipeline {
             stage('Build image') {  
 
                 steps {
+                    script {
                         sh "docker build -t Lechiffresene/odoo:${shortCommit}  ."
 
                          
@@ -32,7 +33,7 @@ pipeline {
                 }
             }
 
-
+ }
             stage('Push image') {
                 
                 steps {
