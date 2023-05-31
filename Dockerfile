@@ -15,7 +15,7 @@ RUN apt install -y unoconv vim git
 
 ### Copy entreprise  modules addons   
 
-COPY ./partner_firstname/  /mnt/extra-addons
+##COPY ./partner_firstname/  /mnt/extra-addons
 
 ### Create data folder for persistant volume
 RUN mkdir -p /home/data \

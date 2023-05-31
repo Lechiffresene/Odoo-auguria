@@ -9,18 +9,12 @@ pipeline {
             }
 
 
-    stages {
-
-            stage('Create  addons directories ') {
- 
+        stage('Install Dependencies') {
             steps {
-                sh "mkdir -p partner_firstname  "
+               
+                sh 'pip install -r requirements.txt'
             }
- 
-            }
-
-            
-            }
+        }
 
             stage('Build image') {
 
