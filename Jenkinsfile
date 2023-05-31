@@ -14,10 +14,9 @@ pipeline {
             stage('Checkout ') {
  
             steps {
-                script {
+                
                  git branch: 'production', url: 'https://github.com/Lechiffresene/Odoo-auguria.git'
-            }
- 
+           
             }
 
 
