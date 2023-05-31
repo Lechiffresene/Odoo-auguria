@@ -6,34 +6,48 @@ pipeline {
 
                 def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
                 def author = sh(returnStdout: true, script: "git show -s --pretty=%an").trim()  
-                imageName = "odoo:${shortCommit}"
             }
 
 
     stages {
 
-            stage('Checkout ') {
+            stage('Create  addons directories ') {
  
             steps {
-                
-                 git branch: 'production', url: 'https://github.com/Lechiffresene/Odoo-auguria.git'
-           
+                sh "mkdir -p partner_firstname  "
+            }
+ 
             }
 
-    }
+            stage('Add module addons') {
 
-            stage('Build Docker Image') {
-            steps {
-                // Build the Docker image with the short commit as the tag
-                script {
-                    docker.build(imageName)
+                steps {
+                    script {
+                        dir('partner_firstname') {
+                            sh "rm -rf ./*"
+                            git(  url: 'git@github.com:Lechiffresene/odoo-module.git', branch: '16.0' ) 
+                            sh " cp -r ./odoo/addons/*  ../partner_firstname   "
+                            sh " ls -lh ../partner_firstname"
+                        }
+                    }
+                }
+            
+            }
+
+            stage('Build image') {
+
+                steps {
+                        sh "docker build -t Lechiffresene/erp:${shortCommit}  ."
+
+
                 }
             }
-        }
+
+
             stage('Push image') {
                 
                 steps {
-                        sh "docker push (imageName) "
+                        sh "docker push Lechiffresene/erp:${shortCommit} "
 
 
                 }
@@ -42,13 +56,9 @@ pipeline {
             stage('Clean image') {
                 
                 steps {
-                        sh "docker rmi (imageName) "
-
+                        sh "docker rmi Lechiffresene/erp:${shortCommit} "
+    }
+                    }
                 }
+            
             }
-           
-}
-
-
-
-}
