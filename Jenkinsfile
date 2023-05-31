@@ -20,11 +20,11 @@ pipeline {
             }
 
 
-            
+
             stage('Build image') {  
 
                 steps {
-                        sh "docker build -t Odoo-auguria/odoo:${shortCommit}  ."
+                        sh "docker build -t Lechiffresene/odoo:${shortCommit}  ."
 
 
                 }
@@ -34,7 +34,7 @@ pipeline {
             stage('Push image') {
                 
                 steps {
-                        sh "docker push Odoo-auguria/odoo:${shortCommit} "
+                        sh "docker push Lechiffresene/odoo:${shortCommit} "
 
 
                 }
@@ -43,7 +43,7 @@ pipeline {
             stage('Clean image') {
                 
                 steps {
-                        sh "docker rmi Odoo-auguria/odoo:${shortCommit} "
+                        sh "docker rmi Lechiffresene/odoo:${shortCommit} "
 
                 }
             }
