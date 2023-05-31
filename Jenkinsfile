@@ -19,19 +19,9 @@ pipeline {
  
             }
 
-            stage('Install Dependencies') {
 
-                steps {
-                    
-                        
-                            sh "pip install -r requirements.txt"
-                        
-                    
-                }
             
-            }
-
-            stage('Build image') {
+            stage('Build image') {  
 
                 steps {
                         sh "docker build -t Odoo-auguria/odoo:${shortCommit}  ."
