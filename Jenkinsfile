@@ -14,6 +14,7 @@ pipeline {
             stage('Checkout ') {
  
             steps {
+                script {
                  git branch: 'production', url: 'https://github.com/Lechiffresene/Odoo-auguria.git'
             }
  
@@ -24,9 +25,9 @@ pipeline {
             stage('Build image') {  
 
                 steps {
-                        
+                        sh "docker build -t Lechiffresene/odoo:${shortCommit}  ."
 
-                         sh 'python odoo-bin -c odoo.conf -d auguria --addons-path=/mnt/extra-addons'
+                         
 
 
                 }
