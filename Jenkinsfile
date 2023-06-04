@@ -13,7 +13,7 @@ pipeline {
     stage('Checkout') {
       steps {
         
-        git(  url: 'https://github.com/AG-FrancoisP/odoo-16.git', branch: '16.0' ) 
+        git(  url: 'git@github.com:AG-FrancoisP/odoo-16.git', branch: '16.0' ) 
         
       }
     }
