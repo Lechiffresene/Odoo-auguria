@@ -5,7 +5,8 @@ pipeline {
     stage('Checkout') {
       steps {
         // Vérifiez le code à partir de votre référentiel GitHub
-        git 'git@github.com:Lechiffresene/Odoo-auguria.git'
+        git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', branch: 'production' ) 
+        
       }
     }
 
@@ -19,14 +20,14 @@ pipeline {
     stage('Push Docker Image') {
       steps {
         // Poussez l'image Docker vers un registre Docker si nécessaire
-        sh 'docker push odoo:16'
+        sh 'docker push Lechiffresene/Odoo-auguria:odoo'
       }
     }
 
      stage('clean image') {
       steps {
         
-        sh 'docker rmi -t odoo:16 .'
+        sh 'docker rmi -t odoo .'
       }
     }
   }
