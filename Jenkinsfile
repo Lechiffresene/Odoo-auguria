@@ -13,7 +13,7 @@ pipeline {
     stage('Checkout') {
       steps {
         
-        git(  url: 'git@github.com:AG-FrancoisP/odoo-16.git', branch: '16.0' ) 
+        git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', branch: 'production' ) 
         
       }
     }
@@ -21,21 +21,21 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         
-        sh 'docker build -t AG-FrancoisP/odoo-16:${shortCommit} .'
+        sh 'docker build -t Lechiffresene/Odoo-auguria:${shortCommit} .'
       }
     }
 
     stage('Push Docker Image') {
       steps {
         
-        sh 'docker push AG-FrancoisP/odoo-16:${shortCommit} '
+        sh 'docker push Lechiffresene/Odoo-auguria:${shortCommit} '
       }
     }
 
      stage('clean image') {
       steps {
         
-        sh 'docker rmi -t AG-FrancoisP/odoo-16:${shortCommit} .'
+        sh 'docker rmi -t Lechiffresene/Odoo-auguria:${shortCommit} .'
       }
     }
   }
