@@ -1,10 +1,18 @@
 pipeline {
   agent any
 
+  environment {
+
+                def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+                def author = sh(returnStdout: true, script: "git show -s --pretty=%an").trim()  
+                
+            }
+
+
   stages {
     stage('Checkout') {
       steps {
-        // Vérifiez le code à partir de votre référentiel GitHub
+        
         git(  url: 'git@github.com:AG-FrancoisP/odoo-16.git', branch: '16.0' ) 
         
       }
@@ -12,22 +20,22 @@ pipeline {
 x
     stage('Build Docker Image') {
       steps {
-        // Construisez l'image Docker en utilisant le Dockerfile
-        sh 'docker build -t odoo:16 .'
+        
+        sh 'docker build -t AG-FrancoisP/odoo-16:${shortCommit} .'
       }
     }
 
     stage('Push Docker Image') {
       steps {
-        // Poussez l'image Docker vers un registre Docker si nécessaire
-        sh 'docker push Lechiffresene/Odoo-auguria:odoo'
+        
+        sh 'docker push AG-FrancoisP/odoo-16:${shortCommit} '
       }
     }
 
      stage('clean image') {
       steps {
         
-        sh 'docker rmi -t odoo .'
+        sh 'docker rmi -t AG-FrancoisP/odoo-16:${shortCommit} .'
       }
     }
   }
