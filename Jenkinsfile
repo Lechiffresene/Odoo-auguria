@@ -5,11 +5,11 @@ pipeline {
     stage('Checkout') {
       steps {
         // Vérifiez le code à partir de votre référentiel GitHub
-        git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', branch: 'production' ) 
+        git(  url: 'git@github.com:AG-FrancoisP/odoo-16.git', branch: '16.0' ) 
         
       }
     }
-
+x
     stage('Build Docker Image') {
       steps {
         // Construisez l'image Docker en utilisant le Dockerfile
