@@ -13,7 +13,7 @@ pipeline {
     stage('Checkout') {
       steps {
         
-        git(  url: 'git@github.com:Lechiffresene/Odoo-auguria.git', branch: 'production' ) 
+        git(  url: 'https://github.com/Lechiffresene/Odoo-auguria.git', branch: 'production' ) 
         
       }
     }
